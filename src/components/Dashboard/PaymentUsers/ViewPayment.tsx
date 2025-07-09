@@ -10,21 +10,12 @@ const ViewPayment: React.FC<{
 }> = ({ id, qUrls, setOpenView }) => {
   const [data, setData] = useState<PaymentList>();
 
-  const handleApproved = async (ket: string) => {
-    try {
-      const url = `/notifications/email`;
-      const response = await fetchApi.post(url, {
-        to: "reusmana1611@gmail.com",
-        body: "tes",
-        subject: "tes",
-      });
-
-      console.log(response);
-      // setOpenView(false);
-    } catch (error) {
-      console.error(error);
-    }
-  };
+const handleApproved = async (action: 'approve' | 'reject') => {
+  const url = `/admin/payments/${id}`;
+  await fetchApi.patch(url, { action });
+  setOpenView(false);
+};
+console.log('VITE_API_BASE_URL =', import.meta.env.VITE_API_BASE_URL);
 
   useEffect(() => {
     const getDetails = async () => {
@@ -39,7 +30,7 @@ const ViewPayment: React.FC<{
     };
 
     getDetails();
-  }, []);
+  }, [id]);
 
   return (
     <div
@@ -98,13 +89,13 @@ const ViewPayment: React.FC<{
         <div className="grid gap-2 lg:gap-5 lg:grid-cols-2">
           <button
             className=" bg-green-500 text-white px-4 py-1.5 lg:py-3 rounded-full mx-auto w-full"
-            onClick={() => handleApproved("approved")}
+            onClick={() => handleApproved('approve')}
           >
             Approve
           </button>
           <button
             className=" bg-red-500 text-white px-4 py-1.5 lg:py-3 rounded-full mx-auto w-full"
-            onClick={() => handleApproved("reject")}
+            onClick={() => handleApproved('reject')}
           >
             Reject
           </button>

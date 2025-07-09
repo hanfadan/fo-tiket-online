@@ -28,6 +28,9 @@ const UpdateProfile = () => {
     }
   };
 
+  const backendBaseUrl = import.meta.env.VITE_API_BASE_URL; // misal: http://localhost:3000/api
+  const imageUrl = data?.profile_url ? `${backendBaseUrl.replace(/\/api\/?$/, "")}${data.profile_url}` : "";
+
   useEffect(() => {
     fetchListEvent();
   }, []);
@@ -44,7 +47,7 @@ const UpdateProfile = () => {
         email: (event.currentTarget.email as HTMLInputElement).value,
         phone: (event.currentTarget.phone as HTMLInputElement).value,
         role: (event.currentTarget.roles as HTMLInputElement).value,
-        profile_url: imageFile,
+        profile: imageFile,
       };
 
       const formData = new FormData();
@@ -119,7 +122,7 @@ const UpdateProfile = () => {
             />
           ) : (
             <img
-              src={data?.profile_url}
+              src={imageUrl}
               alt="Preview"
               className="object-cover w-full h-full"
             />

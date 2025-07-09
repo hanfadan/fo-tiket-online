@@ -4,8 +4,7 @@ import { getCookies } from "./cookie";
 
 const fetchApi: AxiosInstance = axios.create({
   baseURL:
-    import.meta.env.VITE_API_BASE_URL ||
-    "https://farhanmaulidan.my.id/api-ticket/api/",
+    import.meta.env.VITE_API_BASE_URL,
   timeout: 10000,
   headers: {
     "Content-Type": "application/json",
