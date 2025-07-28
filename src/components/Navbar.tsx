@@ -4,7 +4,7 @@ import { GiHamburgerMenu } from "react-icons/gi";
 import { cn } from "../lib/utils";
 // import { useMediaQuery } from "react-responsive";//
 import logo from "../assets/images/Logo MH.png";
-import Button from "./ui/Button";
+// import Button from "./ui/Button";
 import { RiUserSmileLine } from "react-icons/ri";
 import { getCookies, removeCookies } from "../lib/cookie";
 import fetchApi from "../lib/fetch-api";
@@ -68,6 +68,14 @@ const Navbar: React.FC<NavbarProps> = ({ onClick }) => {
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, [lastScrollY]);
+
+  // const navigateToFaq = () => {
+  //   if (location.pathname === "home") {
+  //     navigate("/faq");
+  //   } else {
+  //     navigate("/#faq");
+  //   }
+  // };
 
   return (
     <nav

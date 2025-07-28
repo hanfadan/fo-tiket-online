@@ -8,6 +8,7 @@ export default {
         secondary: "#444444",
         tertiary: "#161616",
         "blue-primary": "#0266D6",
+        disabled: "#94a3b8",
       },
       keyframes: {
         shimmer: {

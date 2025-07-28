@@ -117,8 +117,8 @@ const Event = () => {
           <button
             onClick={() => handleEventClick("upcoming")}
             className={cn(
-              "flex items-center justify-center w-full py-2 text-white rounded-lg bg-primary",
-              selectedEvent === "upcoming" && "opacity-35"
+              "flex items-center justify-center w-full py-2 text-white rounded-lg bg-disabled",
+              selectedEvent === "upcoming" && "bg-primary"
             )}
           >
             Upcoming Event
@@ -126,8 +126,8 @@ const Event = () => {
           <button
             onClick={() => handleEventClick("past")}
             className={cn(
-              "flex items-center justify-center w-full py-2 text-white rounded-lg bg-primary",
-              selectedEvent === "past" && "opacity-35"
+              "flex items-center justify-center w-full py-2 text-white rounded-lg bg-disabled",
+              selectedEvent === "past" && "bg-primary"
             )}
           >
             Past Event

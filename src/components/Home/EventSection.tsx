@@ -8,8 +8,11 @@ import Skeleton from "../Skeleton";
 
 const EventSection = () => {
   const [eventData, setEventData] = useState<EventList[]>([]);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  // const [getMessageNotFound, setGetMessageNotFound] = useState("");
   useEffect(() => {
     const fetchData = async () => {
+      setIsLoading(true);
       try {
         const response = await fetchApi.get("/events");
         const filters = response.data.filter(
@@ -18,7 +21,9 @@ const EventSection = () => {
             new Date().toISOString().slice(0, 10)
         );
         setEventData(filters.slice(0, 3));
+        setIsLoading(false);
       } catch (error) {
+        setIsLoading(false);
         console.error(error);
       }
     };
@@ -35,7 +40,7 @@ const EventSection = () => {
       </div>
 
       <div className="grid grid-cols-1 gap-6 mt-5 lg:mt-20 lg:grid-cols-3 card">
-        {eventData.length === 0 &&
+        {isLoading &&
           [1, 2, 3].map((_, index) => (
             <div
               key={index}

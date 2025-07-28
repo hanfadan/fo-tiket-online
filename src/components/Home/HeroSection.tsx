@@ -20,7 +20,7 @@ const HeroSection: React.FC = () => {
             Kami hadir lebih dekat dengan Anda. Temukan event kami disini!
           </p>
           <Link
-            to="/register"
+            to="/event"
             className="px-6 py-2 mt-2 text-lg text-white uppercase border rounded-full bg-primary border-primary bg-none w-fit"
           >
             Daftar Sekarang!

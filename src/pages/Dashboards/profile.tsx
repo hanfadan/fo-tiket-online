@@ -3,11 +3,12 @@ import Input from "../../components/ui/Input";
 import Button from "../../components/ui/Button";
 import fetchApi from "../../lib/fetch-api";
 import Loading from "../../components/Loading";
-import type { UserUpdate } from "../../interfaces/users";
+import type { UserDetail, UserUpdate } from "../../interfaces/users";
+import { urlPath } from "../../lib/url-path";
 
 const UpdateProfile = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [data, setData] = useState<UserUpdate>();
+  const [data, setData] = useState<UserDetail>();
   const [imageFile, setImageFile] = useState<File | null>(null); // file baru (jika ada)
   const [imagePreviewUrl, setImagePreviewUrl] = useState<string>(""); // untuk preview dari DB
 
@@ -67,6 +68,7 @@ const UpdateProfile = () => {
       });
 
       const data = Object.fromEntries(formData);
+      console.log(data);
       const response = await fetchApi.put(`/user`, data, {
         headers: {
           "Content-Type": "multipart/form-data",
@@ -122,7 +124,7 @@ const UpdateProfile = () => {
             />
           ) : (
             <img
-              src={imageUrl}
+              src={urlPath(data?.profile_url ?? "")}
               alt="Preview"
               className="object-cover w-full h-full"
             />

@@ -1,12 +1,15 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import fetchApi from "../../../lib/fetch-api";
 import type { OrderList } from "../../../interfaces/order";
+import { UserContext } from "../../../context/user-context";
 
 const ViewOrder: React.FC<{
   id: number;
   setOpenView: (value: boolean) => void;
 }> = ({ id, setOpenView }) => {
   const [data, setData] = useState<OrderList>();
+
+  const { currentUser } = useContext(UserContext);
   const handleReject = async (id: number) => {
     try {
       const url = `orders/${id}`;
@@ -73,26 +76,28 @@ const ViewOrder: React.FC<{
                     Pending
                   </span>
                 )}
-                {data?.status === "approved" && (
+                {data?.status === "paid" && (
                   <span className="px-4 py-1 text-sm text-white bg-green-500 rounded-full">
-                    Approved
+                    Paid
                   </span>
                 )}
-                {data?.status === "rejected" && (
+                {data?.status === "cancelled" && (
                   <span className="px-4 py-1 text-sm text-white bg-red-500 rounded-full">
-                    Rejected
+                    Cancelled
                   </span>
                 )}
               </td>
             </tr>
           </tbody>
         </table>
-        <button
-          className="mt-4 bg-red-500 text-white px-4 py-1.5 rounded-full mx-auto"
-          onClick={() => handleReject(id)}
-        >
-          REJECT / DELETE
-        </button>
+        {currentUser.role === "user" && (
+          <button
+            className="mt-4 bg-red-500 text-white px-4 py-1.5 rounded-full mx-auto"
+            onClick={() => handleReject(id)}
+          >
+            REJECT / DELETE
+          </button>
+        )}
       </div>
     </div>
   );

@@ -1,6 +1,11 @@
 import { useContext, useEffect, useRef, useState } from "react";
 import QRIS from "../../assets/qris.png";
 import MANDIRI from "../../assets/mandiri.png";
+import Mas from "../../assets/mas.png";
+import bca from "../../assets/bca.png";
+import danamon from "../../assets/danamon.png";
+import cimb from "../../assets/cimb.png";
+import bni from "../../assets/bni.png";
 import BRI from "../../assets/bri.png";
 import Button from "../../components/ui/Button";
 import { cn } from "../../lib/utils";
@@ -170,13 +175,57 @@ const Payment = () => {
               </span>
             </Button>
             <Button
+              onClick={() => selectThePayment("bca")}
+              className={cn(
+                "flex items-center justify-start gap-3 px-5 py-5 bg-transparent border rounded-lg shadow-lg text-slate-700 qr-code border-slate-300 drop-shadow-xl",
+                selectPayment === "bca" && "border-blue-800 border-2"
+              )}
+            >
+              <img src={bca} alt="" className="h-5" />
+              <span className="text-lg font-semibold uppercase ">Bank BCA</span>
+            </Button>
+            <Button
+              onClick={() => selectThePayment("danamon")}
+              className={cn(
+                "flex items-center justify-start gap-3 px-5 py-5 bg-transparent border rounded-lg shadow-lg text-slate-700 qr-code border-slate-300 drop-shadow-xl",
+                selectPayment === "danamon" && "border-blue-800 border-2"
+              )}
+            >
+              <img src={danamon} alt="" className="h-5" />
+              <span className="text-lg font-semibold uppercase ">
+                Bank Danamon
+              </span>
+            </Button>
+            <Button
+              onClick={() => selectThePayment("cimb")}
+              className={cn(
+                "flex items-center justify-start gap-3 px-5 py-5 bg-transparent border rounded-lg shadow-lg text-slate-700 qr-code border-slate-300 drop-shadow-xl",
+                selectPayment === "cimb" && "border-blue-800 border-2"
+              )}
+            >
+              <img src={cimb} alt="" className="h-5" />
+              <span className="text-lg font-semibold uppercase ">
+                Bank cimb
+              </span>
+            </Button>
+            <Button
+              onClick={() => selectThePayment("bni")}
+              className={cn(
+                "flex items-center justify-start gap-3 px-5 py-5 bg-transparent border rounded-lg shadow-lg text-slate-700 qr-code border-slate-300 drop-shadow-xl",
+                selectPayment === "bni" && "border-blue-800 border-2"
+              )}
+            >
+              <img src={bni} alt="" className="h-5" />
+              <span className="text-lg font-semibold uppercase ">Bank bni</span>
+            </Button>
+            <Button
               onClick={() => selectThePayment("bri")}
               className={cn(
                 "flex items-center justify-start gap-3 px-5 py-5 bg-transparent border rounded-lg shadow-lg text-slate-700 qr-code border-slate-300 drop-shadow-xl",
                 selectPayment === "bri" && "border-blue-800 border-2"
               )}
             >
-              <img src={BRI} alt="" className="h-5" />
+              <img src={BRI} alt="" className="h-5 " />
               <span className="text-lg font-semibold uppercase ">Bank BRI</span>
             </Button>
           </div>

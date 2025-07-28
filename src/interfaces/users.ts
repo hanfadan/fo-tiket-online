@@ -41,6 +41,17 @@ interface UserUpdate {
   profile?: File | null;
 }
 
+interface UserDetail {
+  // req update user
+  id: number;
+  name: string;
+  username: string;
+  email: string;
+  phone: string;
+  profile_url: string | null;
+  role: string;
+}
+
 interface UserContextType {
   currentUser: User;
   setCurrentUser: React.Dispatch<React.SetStateAction<User>>;
@@ -60,4 +71,5 @@ export type {
   UserUpdate,
   UserListAdmin,
   UserCreateByAdmin,
+  UserDetail,
 };

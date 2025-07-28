@@ -6,6 +6,6 @@ export default defineConfig({
   // base: "/tiket-online/",
   plugins: [react()],
   server: {
-    allowedHosts: ["93c6-182-253-58-149.ngrok-free.app"],
+    allowedHosts: ["1f49c57bcdd0.ngrok-free.app"],
   },
 });

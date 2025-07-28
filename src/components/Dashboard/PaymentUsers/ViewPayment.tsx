@@ -10,12 +10,18 @@ const ViewPayment: React.FC<{
 }> = ({ id, qUrls, setOpenView }) => {
   const [data, setData] = useState<PaymentList>();
 
-const handleApproved = async (action: 'approve' | 'reject') => {
-  const url = `/admin/payments/${id}`;
-  await fetchApi.patch(url, { action });
-  setOpenView(false);
-};
-console.log('VITE_API_BASE_URL =', import.meta.env.VITE_API_BASE_URL);
+  const handleApproved = async (ket: string) => {
+    try {
+      const url = `/admin/payments/${id}`;
+      await fetchApi.patch(url, {
+        action: ket,
+      });
+      setOpenView(false);
+    } catch (error) {
+      alert("Gagal change status");
+      console.error(error);
+    }
+  };
 
   useEffect(() => {
     const getDetails = async () => {
@@ -89,7 +95,7 @@ console.log('VITE_API_BASE_URL =', import.meta.env.VITE_API_BASE_URL);
         <div className="grid gap-2 lg:gap-5 lg:grid-cols-2">
           <button
             className=" bg-green-500 text-white px-4 py-1.5 lg:py-3 rounded-full mx-auto w-full"
-            onClick={() => handleApproved('approve')}
+            onClick={() => handleApproved("approve")}
           >
             Approve
           </button>
