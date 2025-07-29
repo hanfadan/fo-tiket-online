@@ -1,17 +1,24 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import fetchApi from "../../lib/fetch-api";
 import Loading from "../../components/Loading";
 import type { PaymentList } from "../../interfaces/payment";
 import ViewPayment from "../../components/Dashboard/PaymentUsers/ViewPayment";
 
 const PaymentAdmin = () => {
-  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [data, setData] = useState<PaymentList[]>([]);
   const [openView, setOpenView] = useState({
     id: 0,
     qUrls: "",
     open: false,
   });
+
+  // Filter state
+  const [globalSearch, setGlobalSearch] = useState("");
+  const [searchOrderId, setSearchOrderId] = useState("");
+  const [searchMethod, setSearchMethod] = useState("");
+  const [searchAmount, setSearchAmount] = useState("");
+  const [searchStatus, setSearchStatus] = useState("");
 
   const fetchListEvent = async () => {
     try {
@@ -34,10 +41,26 @@ const PaymentAdmin = () => {
     setOpenView({
       id: 0,
       qUrls: "",
-      open: open,
+      open,
     });
     fetchListEvent();
   };
+
+  const filteredData = useMemo(() => {
+    return data.filter((item) => {
+      const globalMatch =
+        item.order_id.toLowerCase().includes(globalSearch.toLowerCase()) ||
+        item.method.toLowerCase().includes(globalSearch.toLowerCase()) ||
+        item.status.toLowerCase().includes(globalSearch.toLowerCase());
+
+      const orderIdMatch = item.order_id.toLowerCase().includes(searchOrderId.toLowerCase());
+      const methodMatch = item.method.toLowerCase().includes(searchMethod.toLowerCase());
+      const amountMatch = item.amount.toString().includes(searchAmount);
+      const statusMatch = item.status.toLowerCase().includes(searchStatus.toLowerCase());
+
+      return globalMatch && orderIdMatch && methodMatch && amountMatch && statusMatch;
+    });
+  }, [data, globalSearch, searchOrderId, searchMethod, searchAmount, searchStatus]);
 
   return (
     <div className="flex flex-col pr-6">
@@ -49,20 +72,63 @@ const PaymentAdmin = () => {
           setOpenView={handleAfterReject}
         />
       )}
-      <h1 className="text-4xl font-bold">Payment Users </h1>
+
+      <div className="flex items-center justify-between gap-4">
+        <h1 className="text-4xl font-bold">Payment Users</h1>
+        <input
+          type="text"
+          placeholder="Search..."
+          value={globalSearch}
+          onChange={(e) => setGlobalSearch(e.target.value)}
+          className="px-3 py-2 border rounded-md shadow-sm"
+        />
+      </div>
+
       <table className="w-full mt-10 table-fixed">
         <thead>
           <tr className="w-full border">
             <th className="w-10 py-4 text-lg border">No</th>
-            <th className="w-32 py-4 text-lg border">Order ID</th>
-            <th className="w-32 py-4 text-lg border">Method</th>
-            <th className="w-32 py-4 text-lg border">Amount</th>
-            <th className="w-32 py-4 text-lg border">Status</th>
+            <th className="w-32 py-2 text-lg border">
+              Order ID
+              <input
+                className="w-full px-2 py-1 mt-1 text-sm border rounded"
+                placeholder="Filter"
+                value={searchOrderId}
+                onChange={(e) => setSearchOrderId(e.target.value)}
+              />
+            </th>
+            <th className="w-32 py-2 text-lg border">
+              Method
+              <input
+                className="w-full px-2 py-1 mt-1 text-sm border rounded"
+                placeholder="Filter"
+                value={searchMethod}
+                onChange={(e) => setSearchMethod(e.target.value)}
+              />
+            </th>
+            <th className="w-32 py-2 text-lg border">
+              Amount
+              <input
+                className="w-full px-2 py-1 mt-1 text-sm border rounded"
+                placeholder="Filter"
+                value={searchAmount}
+                onChange={(e) => setSearchAmount(e.target.value)}
+              />
+            </th>
+            <th className="w-32 py-2 text-lg border">
+              Status
+              <input
+                className="w-full px-2 py-1 mt-1 text-sm border rounded"
+                placeholder="Filter"
+                value={searchStatus}
+                onChange={(e) => setSearchStatus(e.target.value)}
+              />
+            </th>
             <th className="w-32 py-4 text-lg border">Action</th>
           </tr>
         </thead>
         <tbody>
-          {data.map((item, index) => (
+          {filteredData.map((item, index) => (
             <tr className="border" key={index}>
               <td className="py-2 text-center border">{index + 1}</td>
               <td className="py-2 text-center border">{item.order_id}</td>
