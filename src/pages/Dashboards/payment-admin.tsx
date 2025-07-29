@@ -46,21 +46,26 @@ const PaymentAdmin = () => {
     fetchListEvent();
   };
 
-  const filteredData = useMemo(() => {
-    return data.filter((item) => {
-      const globalMatch =
-        item.order_id.toLowerCase().includes(globalSearch.toLowerCase()) ||
-        item.method.toLowerCase().includes(globalSearch.toLowerCase()) ||
-        item.status.toLowerCase().includes(globalSearch.toLowerCase());
+const filteredData = useMemo(() => {
+  return data.filter((item) => {
+    const orderId = typeof item.order_id === "string" ? item.order_id : String(item.order_id ?? "");
+    const method = typeof item.method === "string" ? item.method : "";
+    const status = typeof item.status === "string" ? item.status : "";
 
-      const orderIdMatch = item.order_id.toLowerCase().includes(searchOrderId.toLowerCase());
-      const methodMatch = item.method.toLowerCase().includes(searchMethod.toLowerCase());
-      const amountMatch = item.amount.toString().includes(searchAmount);
-      const statusMatch = item.status.toLowerCase().includes(searchStatus.toLowerCase());
+    const globalMatch =
+      orderId.toLowerCase().includes(globalSearch.toLowerCase()) ||
+      method.toLowerCase().includes(globalSearch.toLowerCase()) ||
+      status.toLowerCase().includes(globalSearch.toLowerCase());
 
-      return globalMatch && orderIdMatch && methodMatch && amountMatch && statusMatch;
-    });
-  }, [data, globalSearch, searchOrderId, searchMethod, searchAmount, searchStatus]);
+    const orderIdMatch = orderId.toLowerCase().includes(searchOrderId.toLowerCase());
+    const methodMatch = method.toLowerCase().includes(searchMethod.toLowerCase());
+    const amountMatch = item.amount.toString().includes(searchAmount);
+    const statusMatch = status.toLowerCase().includes(searchStatus.toLowerCase());
+
+    return globalMatch && orderIdMatch && methodMatch && amountMatch && statusMatch;
+  });
+}, [data, globalSearch, searchOrderId, searchMethod, searchAmount, searchStatus]);
+
 
   return (
     <div className="flex flex-col pr-6">
